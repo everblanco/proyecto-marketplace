@@ -1,7 +1,9 @@
 package com.marketplace.services;
 
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.Optional;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,20 +45,36 @@ public class TarjetaService {
 		
 		if(request == null) throw new RuntimeException("Bad Request");
 		
-		Optional<Tarjeta> tarjetaOpt = tarjetaRepository.findByNumero(request.getNumero());
+		
+		
+//		String productoToken = request.getNumero().substring(0, 6);
+				
+//		String numeroToken = request.getNumero().substring(6);
+		
+//		Optional<FakeStoreProductos> productoOpt = fakeStoreCliente.findProductoById(Long.parseLong(productoToken));
+		
+//		if(productoOpt.isEmpty()) throw new RuntimeException("El id del producto no existe");
+		
+		long secuen = tarjetaRepository.getNextSecId().longValue();
+		
+		DecimalFormat format6 = new DecimalFormat("000000");
+		
+		String secuenString = format6.format(secuen);
+		
+		Random random = new Random();
+		
+		long aleatorio = random.nextLong() % 1000000000L + 1000000000L;
+		
+		DecimalFormat format10 = new DecimalFormat("0000000000");
+		
+		String numero = secuenString + format10.format(aleatorio);
+		
+		Optional<Tarjeta> tarjetaOpt = tarjetaRepository.findByNumero(numero);
 		
 		if(tarjetaOpt.isPresent()) throw new RuntimeException("Ya existe una tarjeta con el número indicado");
 		
-		String productoToken = request.getNumero().substring(0, 6);
-		
-		String numeroToken = request.getNumero().substring(6);
-		
-		Optional<FakeStoreProductos> productoOpt = fakeStoreCliente.findProductoById(Long.parseLong(productoToken));
-		
-		if(productoOpt.isEmpty()) throw new RuntimeException("El id del producto no existe");
-		
 		Tarjeta tarjeta = Tarjeta.builder()
-				.numero(request.getNumero())
+				.numero(numero)
 				.saldo(0d)
 				.nombre(request.getNombre())
 				.fechaVencimiento(LocalDate.now().withDayOfMonth(1).plusYears(3L))

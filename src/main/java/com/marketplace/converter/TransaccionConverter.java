@@ -19,6 +19,7 @@ public class TransaccionConverter extends AbstractConverter<Transaccion,Transacc
 				.id(entity.getId())
 				.fecha(entity.getFecha())
 				.total(entity.getTotal())
+				.status(entity.getStatus())
 				.items(entity.getItems().stream()
 						.map(e -> fromEntity(e))
 						.collect(Collectors.toList()))

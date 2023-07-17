@@ -11,6 +11,5 @@ import com.marketplace.entity.Carrito;
 public interface CarritoRepository extends JpaRepository<Carrito, Long>{
 	
 	
-	
 
 }

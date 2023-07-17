@@ -27,9 +27,6 @@ import lombok.Setter;
 public class CrearTarjetaDTO {
 	
 	private Long id;
-	@Pattern(regexp = "\\d{16}", message = "El campo debe tener exactamente 16 dígitos")
-	@NotBlank
-	private String numero;
 	private String nombre;
 	@JsonFormat(pattern = "yyyy-MM-dd")
 	private LocalDate fechaVencimiento;

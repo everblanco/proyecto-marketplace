@@ -1,5 +1,7 @@
 package com.marketplace.services;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import com.marketplace.entity.Transaccion;
 import com.marketplace.enums.StatusTransaccion;
 import com.marketplace.repository.TarjetaRepository;
 import com.marketplace.repository.TransaccionRepository;
+
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -34,6 +37,13 @@ public class TransaccionService {
 		if(transaccion.getStatus() != StatusTransaccion.EXITOSA) {
 			
 			throw new RuntimeException("La transacción no está en esta exitosa, y no se puede anular");
+		}
+		
+		Duration duracion = Duration.between(transaccion.getFecha(), LocalDateTime.now());
+		
+		if(duracion.toHours()>24) {
+			
+			throw new RuntimeException("No es posible cancelar la transaccion, debido a que han pasado  más de 24 horas desde su creación");
 		}
 		
 		Tarjeta tarjeta = transaccion.getTarjeta();
