@@ -202,6 +202,8 @@ public class CarritoService {
 		
 		transaccion = transaccionRepository.save(transaccion);
 		
+		carritoRepository.delete(carrito);
+		
 		return transaccion;
 	}
 	

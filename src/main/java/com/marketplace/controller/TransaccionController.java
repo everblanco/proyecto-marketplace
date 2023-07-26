@@ -29,7 +29,7 @@ public class TransaccionController {
 	TransaccionConverter transaccionConverter;
 	
 	
-	@CrossOrigin(origins = "*", methods = {RequestMethod.GET})
+	@CrossOrigin(origins = "*", methods = {RequestMethod.PUT})
 	@PutMapping(value = "{id}/anular")
 	public ResponseEntity<WrapperResponse<TransaccionDTO>> anular(@PathVariable(name="id") Long id){
 		
